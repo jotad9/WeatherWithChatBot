@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-labelledby="loginRegisterModalLabel" aria-hidden="true" #loginRegisterModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginRegisterModalLabel">Iniciar sesión / Registrarse</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario de inicio de sesión -->
+        <div id="loginSection">
+          <h6>Iniciar sesión</h6>
+          <form id="loginForm" (ngSubmit)="onLogin()">
+            <input type="text" id="loginName" [(ngModel)]="user.name" name="loginName" placeholder="Nombre" required>
+            <input type="password" id="loginPassword" [(ngModel)]="user.password" name="loginPassword" placeholder="Contraseña" required>
+            <button type="submit">Iniciar sesión</button>
+          </form>
+          <p>No tienes una cuenta? <a routerLinkActive="active" id="showRegister">Registrarse</a></p>
+        </div>
+        <!-- Formulario de registro -->
+        <div id="registerSection" style="display: none;">
+          <h6>Registrarse</h6>
+          <form id="registerForm" (ngSubmit)="onRegister()">
+            <input type="text" id="registerName" [(ngModel)]="user.name" name="name" placeholder="Nombre" required>
+            <input type="email" id="registerEmail" [(ngModel)]="user.email" name="email" placeholder="Correo" required>
+            <input type="password" id="registerPassword" [(ngModel)]="user.password" name="password" placeholder="Contraseña" required>
+            <input type="text" id="registerCity" [(ngModel)]="user.city" name="city" placeholder="Ciudad" required>
+            <input type="number" id="registerAge" [(ngModel)]="user.age" name="age" placeholder="Edad" required>
+            <button type="submit">Registrarse</button>
+          </form>
+          <p>Ya tienes una cuenta? <a routerLinkActive="active" id="showLogin">Iniciar sesión</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

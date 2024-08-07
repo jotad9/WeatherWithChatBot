@@ -1,0 +1,32 @@
+<modal (userLoggedIn)="handleUserLoggedIn()" *ngIf="!isLoggin" />
+<div style="display: flex; justify-content: flex-end;">
+  <div class="container" style="margin-left: auto; margin-right: 30%;">
+    <form (submit)="handleSubmit($event)" #searchForm="ngForm" class="mb-3">
+      <app-search-box />
+      <div class="weather-app-wrapper">
+        <div class="weather-app">
+          <h1 id="city"></h1>
+          <strong id="temperature"></strong>
+          <span class="units"> °C</span>
+          <div class="row">
+            <div class="col">
+              <img src="" alt="Clear" id="icon" class="float-left" />
+            </div>
+            <div class="col" id="datos">
+              <h6><span id="date"></span></h6>
+              <h6>Humedad: <span id="humidity"></span>%</h6>
+              <h6>Viento: <span id="wind"></span> km/h</h6>
+            </div>
+          </div>
+          <hr>
+          <div class="weather-forecast" id="forecast"></div>
+          <small>
+            <a href="https://github.com/jotad9" target="_blank">Hecho</a>
+            by Juan Daniel
+          </small>
+        </div>
+      </div>
+    </form>
+  </div>
+  <outfit/>
+</div>
