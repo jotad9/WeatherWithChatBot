@@ -23,8 +23,6 @@
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
-    "cookie-service": "^0.0.0",
-    "cors": "^2.8.5",
     "express-session": "^1.18.0",
     "jquery": "^3.7.1",
     "mssql": "^10.0.2",
