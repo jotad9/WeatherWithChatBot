@@ -1,0 +1,23 @@
+# Dockerfile para el frontend
+FROM node:19.9.0
+
+# Crear directorio de la aplicación
+WORKDIR /app
+
+# Copiar package.json y package-lock.json
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copiar el resto del código de la aplicación
+COPY . .
+
+# Construir la aplicación
+RUN npm run build
+
+# Exponer el puerto en el que la aplicación se ejecutará
+EXPOSE 4200
+
+# Comando para ejecutar la aplicación
+CMD ["npm", "start"]
