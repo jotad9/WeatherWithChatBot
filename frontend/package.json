@@ -2,7 +2,7 @@
   "name": "weather-app",
   "version": "0.0.0",
   "scripts": {
-    "start:server": "node dist/weather-app/browser/server.js",
+    "start:server": "node ../backend/server.js",
     "start:client": "ng serve -o",
     "ng": "ng",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
