@@ -19,6 +19,7 @@ export class HistorialComponent implements OnInit {
   historicos() {
     let user = localStorage.getItem('user');
     if (user) {
+      console.log(user);
       let userObj = JSON.parse(user);
       this.userName = userObj.name;
       const params = new HttpParams().set('Nombre', this.userName);

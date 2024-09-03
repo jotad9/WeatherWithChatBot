@@ -1,11 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+const sql = require('mssql');
 const app = express();
 
-app.use(cors());
+const config = {
+    user: 'admin',
+    password: 'admin',
+    server: 'localhost',
+    database: 'weather',
+    options:{
+        trustServerCertificate: true
+    }
+};
+const pool = new sql.ConnectionPool(config);
+const poolConnect = pool.connect();
 
+app.use(cors());
+app.use(express.json());
 app.post('/register', async (req, res) => {
     try {
+        await poolConnect;
         const result = await pool.request()
             .input('Nombre', sql.NVarChar, req.body.name)
             .input('email', sql.NVarChar, req.body.email)
@@ -25,47 +39,37 @@ app.post('/register', async (req, res) => {
         // handle error
     }
 });
-async function checkUserCredentials(username, password) {
+//Usa req.body cuando los datos se envían en el cuerpo de la solicitud, típicamente en solicitudes POST, PUT, PATCH.
+app.post('/login', async (req, res) => {
     try {
+        await poolConnect;
         const result = await pool.request()
-            .input('Nombre', sql.NVarChar, username)
-            .input('password', sql.NVarChar, password)
+            .input('Nombre', sql.NVarChar, req.body.name)
+            .input('password', sql.NVarChar, req.body.password)
             .query('SELECT * FROM profile WHERE Nombre = @Nombre AND password = @password');
 
         if (result.recordset.length > 0) {
-            return true;
-        } else {
-            return null;
-        }
+            const user = result.recordset[0]; 
+            res.status(200).send({
+                message: 'Logged in',
+                user: {
+                    name: user.Nombre, // Convert 'Nombre' to 'name'
+                    email: user.email,
+                    password: user.password,
+                    city: user.city,
+                    age: user.edad
+                }
+            });
+        } 
     } catch (err) {
         console.error('SQL error', err);
         return false;
     }
-}
-app.post('/login', async (req, res) => {
-    const {
-        username,
-        password
-    } = req.body;
-
-    // Aquí deberías verificar el nombre de usuario y la contraseña con tu base de datos
-    const user = await checkUserCredentials(username, password);
-
-    if (user) {
-        // Si el usuario es válido, almacena su información en la sesión
-        req.session.user = user;
-        res.status(200).send({
-            message: 'Logged in'
-        });
-    } else {
-        res.status(401).send({
-            message: 'Invalid credentials'
-        });
-    }
 });
-
+//Usa req.query cuando los datos se envían como parámetros de consulta en la URL, típicamente en solicitudes GET.
 app.get('/historial', async (req, res) => {
     try {
+        await poolConnect;
         const result = await pool.request()
             .input('Nombre', sql.NVarChar, req.query.Nombre)
             .query('SELECT * FROM Historicos WHERE Nombre = @Nombre');
@@ -76,7 +80,8 @@ app.get('/historial', async (req, res) => {
                 message: 'Historial encontrado',
                 user: user.map(u => ({
                     name: u.Nombre,
-                    historial: u.SearchCity
+                    historial: u.SearchCity,
+                    fecha: u.Fecha
                 }))
             });
         } else {
@@ -94,10 +99,12 @@ app.get('/historial', async (req, res) => {
 
 app.post('/registroHistorial', async (req, res) => {
     try {
+        await poolConnect;
         const result = await pool.request()
             .input('Nombre', sql.NVarChar, req.body.Nombre)
             .input('SearchCity', sql.NVarChar, req.body.SearchCity)
-            .query('INSERT INTO Historicos (Nombre, SearchCity) VALUES (@Nombre, @SearchCity)');
+            .input('Fecha', sql.DateTime,req.body.Fecha)
+            .query('INSERT INTO Historicos (Nombre, SearchCity,Fecha) VALUES (@Nombre, @SearchCity,@Fecha)');
 
         if (result.recordset && result.recordset.length > 0) {
             //const user recoge la información del usuario
@@ -106,11 +113,20 @@ app.post('/registroHistorial', async (req, res) => {
                 //Se envía la información del usuario
                 user: {
                     name: req.body.Nombre,
-                    historial: req.body.SearchCity
+                    historial: req.body.SearchCity,
+                    fecha:req.body.Fecha
                 }
             });
         }
     } catch (error) {
-        // handle error
+        console.error('SQL error', error);
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
+});
+
+const port= 3000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });

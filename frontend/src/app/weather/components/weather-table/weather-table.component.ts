@@ -127,6 +127,7 @@ export class WeatherTableComponent implements OnInit {
 
       if (user) {
         let userObj = JSON.parse(user);
+        //comprueba si userObj es un objeto y si tiene la propiedad name de la interfaz Usuario
         if (userObj && typeof userObj === 'object' && 'name' in userObj) {
           const userName = userObj.name;
           console.log(userName, lastSearchedCity);
