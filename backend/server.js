@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
 const app = express();
-
+//server: localhost
+//para usar docker: host.docker.internal
 const config = {
     user: 'admin',
     password: 'admin',
-    server: 'localhost',
+    server: 'host.docker.internal',
     database: 'weather',
     options:{
         trustServerCertificate: true

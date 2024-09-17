@@ -1,28 +1,35 @@
-version: '3.8'
-
 services:
-  web:
-    image: nginx:alpine
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:latest
     ports:
-      - "80:80"
+      - "4200:4200"
     volumes:
-      - ./frontend:/usr/share/nginx/html
+      - ./frontend:/app
     depends_on:
       - backend
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
       - ./backend:/app
     environment:
       - NODE_ENV=development
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_HOST=db
+      - DB_NAME=weather
 
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      SA_PASSWORD: "Admin.3200.JDl"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"

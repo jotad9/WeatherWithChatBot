@@ -1,20 +1,17 @@
 {
-  "name": "weather-app",
+  "name": "weather-app-backend",
   "version": "0.0.0",
   "scripts": {
-    "start:server": "node dist/weather-app/browser/server.js",
-    "start:client": "ng serve -o",
-    "ng": "ng",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "node server.js",
+    "test": "jest"
   },
   "private": true,
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "express-session": "^1.18.0",
     "jquery": "^3.7.1",
     "mssql": "^10.0.4",
@@ -23,10 +20,6 @@
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.8",
-    "@angular/cli": "^17.3.8",
-    "@angular/compiler-cli": "^17.3.0",
-    "@types/bootstrap": "^5.2.10",
     "@types/jasmine": "~5.1.0",
     "@types/jquery": "^3.5.30",
     "concurrently": "^8.2.2",
