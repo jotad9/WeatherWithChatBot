@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js para construir la aplicación
-FROM node:18-alpine
+FROM node:18
 
 
 LABEL Name=frontend
@@ -7,14 +7,15 @@ LABEL Name=frontend
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
+# Copia el archivo package.json y package-lock.json
 COPY package.json package-lock.json ./
 
-# Instalar dependencias
+# Instala las dependencias
 RUN npm install
 
 # Copia el resto del código de la aplicación
 COPY . .
+
 
 EXPOSE 4200
 
