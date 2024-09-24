@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
     "open": "start http://localhost:4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -45,5 +45,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "open": "^10.1.0",
     "typescript": "~5.4.2"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.22.4"
   }
 }

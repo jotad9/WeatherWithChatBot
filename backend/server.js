@@ -126,7 +126,7 @@ app.post('/registroHistorial', async (req, res) => {
         });
     }
 });
-
+//si quieres cambiar la ip puedes hacerlo desde aqui
 const port= 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

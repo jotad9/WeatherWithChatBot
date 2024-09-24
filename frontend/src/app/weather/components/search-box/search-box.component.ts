@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-search-box',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './search-box.component.html',
+  templateUrl: './search-box.component.html'
 })
 export class SearchBoxComponent {
 

@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js para construir la aplicación
-FROM node:18
+FROM node:18-alpine
 
 
 LABEL Name=frontend
