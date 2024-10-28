@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
-import { HistorialComponent } from './weather/components/historial/historial.component';
-import { PerfilComponent } from './weather/components/perfil/perfil.component';
-import { WeatherTableComponent } from './weather/components/weather-table/weather-table.component';
 import { WeatherComponent } from './weather/weather.component';
+import { WeatherTableComponent } from './weather/components/weather-table/weather-table.component';
 
 export const routes: Routes = [
   {
@@ -11,20 +9,31 @@ export const routes: Routes = [
     children: [
       {
         path: 'city',
-        component: WeatherTableComponent,
+        component: WeatherTableComponent, // Carga inmediata
       },
       {
         path: 'perfil',
-        component: PerfilComponent,
+        loadComponent: () => import('./weather/components/perfil/perfil.component').then(m => m.PerfilComponent),
       },
       {
         path: 'historial',
-        component: HistorialComponent,
-      },{
+        loadComponent: () => import('./weather/components/historial/historial.component').then(m => m.HistorialComponent),
+      },
+      {
+        path: '',
+        redirectTo: 'city',
+        pathMatch: 'full'
+      },
+      {
         path: '**',
         redirectTo: 'city'
       }
     ],
+  },
+  {
+    path: '',
+    redirectTo: 'weather',
+    pathMatch: 'full'
   },
   {
     path: '**',
